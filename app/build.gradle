@@ -1,0 +1,37 @@
+apply plugin: 'com.android.application'
+apply from: '../configuration.gradle'
+
+android {
+    compileSdkVersion config.compileSdk
+    buildToolsVersion config.buildTools
+    defaultConfig {
+        applicationId "com.theclothingstore.mystore"
+        minSdkVersion config.minSdk
+        targetSdkVersion config.compileSdk
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    //support library dependencies
+    compile "com.android.support:appcompat-v7:${libraries.supportLibrary}"
+    compile "com.android.support:recyclerview-v7:${libraries.supportLibrary}"
+    compile "com.android.support:support-annotations:${libraries.supportLibrary}"
+
+    //Third party library dependencies
+    compile "com.google.guava:guava:${libraries.guava}"
+
+    //testing library dependencies
+    testCompile "junit:junit:${libraries.junit}"
+    testCompile "org.mockito:mockito-core:${libraries.mockito}"
+}

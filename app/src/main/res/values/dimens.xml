@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- toolbar elevation -->
+    <dimen name="toolbar_elevation">4dp</dimen>
+
+    <!-- text size -->
+    <dimen name="welcome_text_size">20sp</dimen>
+
+    <!--image size -->
+    <dimen name="image_size">100dp</dimen>
+
+    <!-- margin -->
+    <dimen name="default_margin">20dp</dimen>
+
+    <!-- padding -->
+    <dimen name="default_padding">10dp</dimen>
+
+</resources>
