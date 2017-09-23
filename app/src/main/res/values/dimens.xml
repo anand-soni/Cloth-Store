@@ -18,6 +18,7 @@
 
     <!-- padding -->
     <dimen name="default_padding">10dp</dimen>
+    <dimen name="button_drawable_padding">5dp</dimen>
 
     <!-- card view -->
     <dimen name="card_view_height">300dp</dimen>

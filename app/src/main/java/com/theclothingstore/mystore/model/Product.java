@@ -1,17 +1,26 @@
 package com.theclothingstore.mystore.model;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * This is a plain old java object or POJO class for the product
  *
  * @author Anand Soni
  */
 public class Product {
+
+    @SerializedName("productId")
     private int productId;
-    private String name;
-    private String category;
-    private double price;
-    private Double oldPrice;
-    private int stock;
+    @SerializedName("name")
+    private String productName;
+    @SerializedName("category")
+    private String productCategory;
+    @SerializedName("price")
+    private double productPrice;
+    @SerializedName("oldPrice")
+    private Double productOldPrice;
+    @SerializedName("stock")
+    private int productStock;
 
     public int getProductId() {
         return productId;
@@ -21,43 +30,43 @@ public class Product {
         this.productId = productId;
     }
 
-    public String getName() {
-        return name;
+    public String getProductName() {
+        return productName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
-    public String getCategory() {
-        return category;
+    public String getProductCategory() {
+        return productCategory;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setProductCategory(String productCategory) {
+        this.productCategory = productCategory;
     }
 
-    public double getPrice() {
-        return price;
+    public double getProductPrice() {
+        return productPrice;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
+    public void setProductPrice(double productPrice) {
+        this.productPrice = productPrice;
     }
 
-    public Double getOldPrice() {
-        return oldPrice;
+    public Double getProductOldPrice() {
+        return productOldPrice;
     }
 
-    public void setOldPrice(Double oldPrice) {
-        this.oldPrice = oldPrice;
+    public void setProductOldPrice(Double productOldPrice) {
+        this.productOldPrice = productOldPrice;
     }
 
-    public int getStock() {
-        return stock;
+    public int getProductStock() {
+        return productStock;
     }
 
-    public void setStock(int stock) {
-        this.stock = stock;
+    public void setProductStock(int productStock) {
+        this.productStock = productStock;
     }
 }

@@ -22,7 +22,7 @@ import static org.mockito.Mockito.when;
  * @author Anand Soni
  */
 @RunWith(MockitoJUnitRunner.class)
-public class CataloguePresenterLoaderTest extends LoaderTestCase {
+public class ProductListLoaderTest extends LoaderTestCase {
 
     @Mock
     ProductCatalogueModel model;
@@ -32,12 +32,12 @@ public class CataloguePresenterLoaderTest extends LoaderTestCase {
     ProductCatalogueView view;
 
     private ProductCataloguePresenter presenter;
-    private CataloguePresenterLoader presenterLoader;
+    private ProductListLoader presenterLoader;
 
     @Before
     public void setUp() {
         presenter = new ProductCataloguePresenter(view, model);
-        presenterLoader = new CataloguePresenterLoader(context, presenter);
+        presenterLoader = new ProductListLoader(context, presenter);
     }
 
     @Test

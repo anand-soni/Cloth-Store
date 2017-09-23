@@ -12,19 +12,21 @@ import java.util.List;
 
 /**
  * This class helps to resolve most common problem of surviving the orientation change.
- * Loader can survive the orientation change. CataloguePresenterLoader is the Subclass of AsyncTaskLoader
+ * Loader can survive the orientation change. ProductListLoader is the Subclass of {@link AsyncTaskLoader}
  * which keeps presenter and it's data safe during orientation change.
  *
  * @author Anand Soni
  */
-class CataloguePresenterLoader extends AsyncTaskLoader<ProductCataloguePresenter> {
+class ProductListLoader extends AsyncTaskLoader<ProductCataloguePresenter> {
 
     private ProductCataloguePresenter presenter;
+    private ProductCatalogueModel model;
 
-    CataloguePresenterLoader(@NonNull Context context,
-                             @NonNull ProductCataloguePresenter presenter) {
+    ProductListLoader(@NonNull Context context,
+                      @NonNull ProductCataloguePresenter presenter) {
         super(context);
         this.presenter = presenter;
+        this.model = presenter.getProductModel();
     }
 
     @Override
@@ -34,15 +36,20 @@ class CataloguePresenterLoader extends AsyncTaskLoader<ProductCataloguePresenter
             // we will use the same presenter
             deliverResult(presenter);
         } else {
-            // We have no data, so start loading the data
+            // If we have no data or request is not fetch product, in that case
+            // we need to force load
             forceLoad();
         }
     }
 
     @Override
     public ProductCataloguePresenter loadInBackground() {
-        // Get the model from the presenter
-        ProductCatalogueModel model = presenter.getProductModel();
+        fetchProducts();
+        //return the presenter
+        return presenter;
+    }
+
+    private void fetchProducts() {
         List<Product> productList = new ArrayList<>();
         try {
             // Synchronous operation for fetching all the products using Shop API
@@ -53,9 +60,6 @@ class CataloguePresenterLoader extends AsyncTaskLoader<ProductCataloguePresenter
 
         //set the product list for updating the view
         presenter.setProductList(productList);
-
-        //return the presenter
-        return presenter;
     }
 
     @Override

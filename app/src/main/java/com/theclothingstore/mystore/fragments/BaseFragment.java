@@ -163,7 +163,7 @@ public class BaseFragment extends Fragment implements Toolbar.OnMenuItemClickLis
      */
 
     protected int getNavigationIcon() {
-        return R.drawable.ic_arrow_back_white;
+        return R.drawable.back;
     }
 
 

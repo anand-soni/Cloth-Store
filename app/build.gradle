@@ -49,6 +49,7 @@ dependencies {
     compile "com.android.support:recyclerview-v7:${libraries.supportLibrary}"
     compile "com.android.support:support-annotations:${libraries.supportLibrary}"
     compile "com.android.support:cardview-v7:${libraries.supportLibrary}"
+    compile "com.android.support:design:${libraries.supportLibrary}"
 
     //Third party library dependencies
     compile "com.google.guava:guava:${libraries.guava}"

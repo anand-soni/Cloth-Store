@@ -8,72 +8,101 @@
     android:padding="@dimen/default_padding"
     card_view:cardCornerRadius="@dimen/card_view_radius">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content">
 
-        <RelativeLayout
-            android:layout_width="0dp"
+        <LinearLayout
+            android:id="@+id/main_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/default_margin"
-            android:layout_weight="1">
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/default_margin"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/product_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/product_name_text_size" />
+
+                <TextView
+                    android:id="@+id/product_category"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/product_name"
+                    android:textSize="@dimen/product_category_text_size" />
+
+                <TextView
+                    android:id="@+id/product_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/product_category"
+                    android:textSize="@dimen/product_category_text_size" />
+
+                <TextView
+                    android:id="@+id/product_old_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/product_category"
+                    android:layout_marginLeft="@dimen/old_price_margin"
+                    android:layout_marginStart="@dimen/old_price_margin"
+                    android:layout_toEndOf="@+id/product_price"
+                    android:layout_toRightOf="@+id/product_price"
+                    android:textSize="@dimen/product_old_price_text_size" />
+
+                <TextView
+                    android:id="@+id/text_view_out_of_stock"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/product_price"
+                    android:text="@string/out_of_stock"
+                    android:textColor="@android:color/holo_orange_dark"
+                    android:visibility="gone" />
+
+            </RelativeLayout>
 
             <TextView
-                android:id="@+id/product_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="@dimen/product_name_text_size" />
-
-            <TextView
-                android:id="@+id/product_category"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/product_name"
-                android:textSize="@dimen/product_category_text_size" />
-
-            <TextView
-                android:id="@+id/product_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/product_category"
-                android:textSize="@dimen/product_category_text_size" />
-
-            <TextView
-                android:id="@+id/product_old_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/product_category"
-                android:layout_toRightOf="@+id/product_price"
-                android:layout_toEndOf="@+id/product_price"
-                android:layout_marginLeft="@dimen/old_price_margin"
-                android:layout_marginStart="@dimen/old_price_margin"
-                android:textSize="@dimen/product_old_price_text_size" />
-
-            <TextView
-                android:id="@+id/text_view_out_of_stock"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/product_price"
-                android:text="@string/out_of_stock"
-                android:textColor="@android:color/holo_orange_dark"
+                android:id="@+id/product_stock"
+                android:layout_width="@dimen/stock_width"
+                android:layout_height="@dimen/stock_width"
+                android:layout_gravity="center"
+                android:layout_marginEnd="@dimen/default_margin"
+                android:layout_marginRight="@dimen/default_margin"
+                android:background="@drawable/circle"
+                android:gravity="center"
+                android:padding="@dimen/default_padding"
+                android:textColor="@android:color/white"
                 android:visibility="gone" />
 
-        </RelativeLayout>
+        </LinearLayout>
 
-        <TextView
-            android:id="@+id/product_stock"
-            android:layout_width="@dimen/stock_width"
-            android:layout_height="@dimen/stock_width"
-            android:layout_gravity="center"
-            android:layout_marginEnd="@dimen/default_margin"
-            android:layout_marginRight="@dimen/default_margin"
-            android:gravity="center"
-            android:padding="@dimen/default_padding"
-            android:visibility="gone"
-            android:background="@drawable/circle"
-            android:textColor="@android:color/white" />
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/main_content">
 
-    </LinearLayout>
+            <ProgressBar
+                android:id="@+id/cart_progress"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/button_add_cart"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/add_to_cart"
+                android:textColor="@color/colorPrimaryDark"
+                android:visibility="gone" />
+
+        </FrameLayout>
+
+    </RelativeLayout>
 
 </android.support.v7.widget.CardView>

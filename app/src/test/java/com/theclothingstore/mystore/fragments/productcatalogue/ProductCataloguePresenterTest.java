@@ -38,14 +38,20 @@ public class ProductCataloguePresenterTest {
 
     @Test
     public void updateView() {
-        presenter.updateView();
-        verify(view).updateView(ArgumentMatchers.<Product>anyList());
+        presenter.updateProductList();
+        verify(view).updateProductList(ArgumentMatchers.<Product>anyList());
     }
 
     @Test
     public void setProductList() {
         presenter.setProductList(mockProductList());
         assertEquals(presenter.getProductList().size(), 3);
+    }
+
+    @Test
+    public void updateCartProgress() {
+        presenter.updateCartProgress(true, 1);
+        verify(view).onProductAddToCart(true, 1);
     }
 
     private List<Product> mockProductList() {

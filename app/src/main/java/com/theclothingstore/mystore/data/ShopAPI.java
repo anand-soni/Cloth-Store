@@ -28,5 +28,5 @@ public interface ShopAPI {
     Call<CartResponse> addProductToCart(@Body int productId);
 
     @DELETE("cart/{id}")
-    void removeProductFromCart(@Path("id") int cardId);
+    Call<Void> removeProductFromCart(@Path("id") int cardId);
 }

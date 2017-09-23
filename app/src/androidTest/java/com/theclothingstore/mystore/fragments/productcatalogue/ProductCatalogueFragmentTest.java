@@ -10,11 +10,13 @@ import android.view.View;
 
 import com.theclothingstore.mystore.ContentActivity;
 import com.theclothingstore.mystore.R;
+import com.theclothingstore.mystore.model.CartResponse;
 import com.theclothingstore.mystore.model.Product;
 
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.mockito.Mock;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -31,6 +33,9 @@ public class ProductCatalogueFragmentTest {
 
     @Rule
     public ActivityTestRule<ContentActivity> activityTestRule = new ActivityTestRule<>(ContentActivity.class);
+
+    @Mock
+    CartResponse response;
 
     private ProductCatalogueFragment fragment;
     private ContentActivity activity;
@@ -61,20 +66,20 @@ public class ProductCatalogueFragmentTest {
                 RecyclerView recyclerView = (RecyclerView) view;
                 RecyclerView.ViewHolder viewHolderForPosition = recyclerView.findViewHolderForLayoutPosition(0);
                 View viewAtPosition = viewHolderForPosition.itemView;
-                matches(hasDescendant(withText(product.getName()))).check(viewAtPosition, e);
-                matches(hasDescendant(withText(product.getCategory()))).check(viewAtPosition, e);
-                matches(hasDescendant(withText(String.valueOf(product.getStock())))).check(viewAtPosition, e);
+                matches(hasDescendant(withText(product.getProductName()))).check(viewAtPosition, e);
+                matches(hasDescendant(withText(product.getProductCategory()))).check(viewAtPosition, e);
+                matches(hasDescendant(withText(String.valueOf(product.getProductStock())))).check(viewAtPosition, e);
             }
         });
     }
 
     private Product mockProduct() {
         Product product = new Product();
-        product.setName("Almond Toe Court Shoes, Patent Black");
-        product.setCategory("Women's Footwear");
-        product.setPrice(99);
-        product.setOldPrice(null);
-        product.setStock(5);
+        product.setProductName("Almond Toe Court Shoes, Patent Black");
+        product.setProductCategory("Women's Footwear");
+        product.setProductPrice(99);
+        product.setProductOldPrice(null);
+        product.setProductStock(5);
         return product;
     }
 }
