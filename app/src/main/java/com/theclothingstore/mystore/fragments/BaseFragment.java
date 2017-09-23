@@ -14,7 +14,10 @@ import android.view.View;
 import com.theclothingstore.mystore.ContentActivity;
 import com.theclothingstore.mystore.R;
 import com.theclothingstore.mystore.controllers.NavigationController;
+import com.theclothingstore.mystore.data.ShopService;
 import com.theclothingstore.mystore.helper.NullValues;
+
+import butterknife.Unbinder;
 
 /**
  * @author Anand Soni
@@ -25,6 +28,7 @@ public class BaseFragment extends Fragment implements Toolbar.OnMenuItemClickLis
     public static final String TAG = BaseFragment.class.getSimpleName();
 
     protected ContentActivity contentActivity;
+    protected Unbinder unbinder;
 
     /**
      * Default navigation listener for toolbar
@@ -54,6 +58,14 @@ public class BaseFragment extends Fragment implements Toolbar.OnMenuItemClickLis
         updateToolBar();
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (unbinder != null) {
+            unbinder.unbind();
+        }
+    }
+
     /**
      * This method is responsible for setting the ContentActivity instance
      *
@@ -74,7 +86,7 @@ public class BaseFragment extends Fragment implements Toolbar.OnMenuItemClickLis
      * This method is responsible for setting the ContentActivity instance if not already set
      * otherwise return the instance
      *
-     * @return Content Activity Instance
+     * @return ContentActivity Instance
      */
     @NonNull
     public ContentActivity getContentActivity() {
@@ -183,7 +195,6 @@ public class BaseFragment extends Fragment implements Toolbar.OnMenuItemClickLis
         return isToolbarNavigationActive() ? DEFAULT_TOOLBAR_NAVIGATION : null;
     }
 
-
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         return false;
@@ -197,5 +208,14 @@ public class BaseFragment extends Fragment implements Toolbar.OnMenuItemClickLis
     @NonNull
     public NavigationController getNavigationController() {
         return contentActivity.getNavigationController();
+    }
+
+    /**
+     * This method returns the instance of ShopService
+     *
+     * @return ShopService instance
+     */
+    public ShopService getShopService() {
+        return getContentActivity().getShopService();
     }
 }

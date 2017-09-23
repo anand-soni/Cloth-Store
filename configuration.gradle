@@ -11,5 +11,10 @@ ext {
             guava             : '20.0',
             junit             : '4.12',
             mockito           : '2.8.47',
+            butterknife       : '8.4.0',
+            retrofit          : '2.1.0',
+            retrofitgson      : '2.1.0',
+            testSupportLibrary: '0.5',
+            espresso   : '3.0.1'
     ]
 }

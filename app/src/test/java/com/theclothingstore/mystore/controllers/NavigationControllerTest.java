@@ -5,23 +5,16 @@ import android.app.FragmentTransaction;
 
 import com.theclothingstore.mystore.ContentActivity;
 import com.theclothingstore.mystore.fragments.BaseFragment;
-import com.theclothingstore.mystore.fragments.WelcomeFragment;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
-import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.atLeastOnce;
-import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -51,7 +44,7 @@ public class NavigationControllerTest {
 
     @Test
     public void openWelcomeScreen() throws Exception {
-        navigationController.openWelcomeScreen();
+        navigationController.openProductCatalogueScreen();
         verifyTransactionDone();
     }
 

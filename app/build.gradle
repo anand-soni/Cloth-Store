@@ -20,18 +20,42 @@ android {
     }
 }
 
+configurations.all {
+    resolutionStrategy {
+        // Necessary to get the Testing support library to work
+        force "com.android.support:support-annotations:${libraries.supportLibrary}"
+    }
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    //testing library dependencies
+    testCompile "junit:junit:${libraries.junit}"
+    testCompile "org.mockito:mockito-core:${libraries.mockito}"
+    androidTestCompile "org.mockito:mockito-android:${libraries.mockito}"
+    androidTestCompile "com.android.support.test:runner:${libraries.testSupportLibrary}"
+    androidTestCompile "com.android.support.test:rules:${libraries.testSupportLibrary}"
+    androidTestCompile "com.android.support.test.espresso:espresso-core:${libraries.espresso}"
+    androidTestCompile('com.android.support.test.espresso:espresso-contrib:2.2.2') {
+        //necessary to avoid version conflicts
+        exclude module: 'support-v4'
+        exclude module: 'recyclerview-v7'
+        exclude module: 'design'
+    }
 
     //support library dependencies
     compile "com.android.support:appcompat-v7:${libraries.supportLibrary}"
     compile "com.android.support:recyclerview-v7:${libraries.supportLibrary}"
     compile "com.android.support:support-annotations:${libraries.supportLibrary}"
+    compile "com.android.support:cardview-v7:${libraries.supportLibrary}"
 
     //Third party library dependencies
     compile "com.google.guava:guava:${libraries.guava}"
+    compile "com.jakewharton:butterknife:${libraries.butterknife}"
+    annotationProcessor "com.jakewharton:butterknife-compiler:${libraries.butterknife}"
+    compile "com.squareup.retrofit2:retrofit:${libraries.retrofit}"
+    compile "com.squareup.retrofit2:converter-gson:${libraries.retrofitgson}"
 
-    //testing library dependencies
-    testCompile "junit:junit:${libraries.junit}"
-    testCompile "org.mockito:mockito-core:${libraries.mockito}"
+
 }
