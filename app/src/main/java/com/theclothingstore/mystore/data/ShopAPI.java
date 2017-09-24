@@ -22,7 +22,7 @@ public interface ShopAPI {
     Call<List<Product>> getAllProducts();
 
     @GET("products/{id}")
-    Call<Product> getProduct(@Path("productId") int productId);
+    Call<Product> getProduct(@Path("id") int productId);
 
     @POST("cart")
     Call<CartResponse> addProductToCart(@Body int productId);

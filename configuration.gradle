@@ -15,6 +15,6 @@ ext {
             retrofit          : '2.1.0',
             retrofitgson      : '2.1.0',
             testSupportLibrary: '0.5',
-            espresso   : '3.0.1'
+            espresso          : '3.0.1'
     ]
 }

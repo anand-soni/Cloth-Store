@@ -1,10 +1,14 @@
 package com.theclothingstore.mystore.controllers;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 
 import com.theclothingstore.mystore.ContentActivity;
 import com.theclothingstore.mystore.fragments.BaseFragment;
 import com.theclothingstore.mystore.fragments.productcatalogue.ProductCatalogueFragment;
+import com.theclothingstore.mystore.fragments.shopingcart.ShoppingCartFragment;
 
 /**
  * This class is responsible for all the fragment transaction which will take place
@@ -36,8 +40,17 @@ public class NavigationController {
      * This method is responsible for opening product catalogue screen
      */
     public void openProductCatalogueScreen() {
+
         ProductCatalogueFragment fragment = ProductCatalogueFragment.newInstance();
         doFragmentTransaction(fragment);
+    }
+
+    /**
+     * This method is responsible for opening product catalogue screen
+     */
+    public void openShoppingCartScreen() {
+        ShoppingCartFragment fragment = ShoppingCartFragment.newInstance();
+        doFragmentTransaction(fragment, true);
     }
 
     /**
@@ -57,8 +70,8 @@ public class NavigationController {
      * @param addToBackStack, whether you want to add fragment to back stack or not
      */
     private void doFragmentTransaction(@NonNull BaseFragment baseFragment, boolean addToBackStack) {
-        android.app.FragmentManager manager = getContentActivity().getFragmentManager();
-        android.app.FragmentTransaction transaction = manager.beginTransaction();
+        FragmentManager manager = getContentActivity().getFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
         transaction.replace(ContentActivity.CONTAINER_ID, baseFragment, getFragmentName(baseFragment.getClass()));
         if (addToBackStack) {
             transaction.addToBackStack(getFragmentName(baseFragment.getClass()));
@@ -73,7 +86,8 @@ public class NavigationController {
      * @return String, fragment class name
      */
     @NonNull
-    private String getFragmentName(@NonNull Class fragmentClass) {
+    @VisibleForTesting
+    public String getFragmentName(@NonNull Class fragmentClass) {
         return fragmentClass.getSimpleName();
     }
 }

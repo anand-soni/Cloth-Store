@@ -54,6 +54,11 @@ public class ContentActivityTest {
     }
 
     @Test
+    public void getSharedPreference() {
+        assertNotNull(activity.getSharedPreference());
+    }
+
+    @Test
     public void getNavigationController() {
         assertNotNull(activity.getNavigationController());
     }

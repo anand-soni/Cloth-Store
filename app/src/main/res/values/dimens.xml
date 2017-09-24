@@ -7,6 +7,7 @@
     <dimen name="product_name_text_size">18sp</dimen>
     <dimen name="product_category_text_size">16sp</dimen>
     <dimen name="product_old_price_text_size">14sp</dimen>
+    <dimen name="cart_empty_text_size">24sp</dimen>
 
     <!--image size -->
     <dimen name="image_size">100dp</dimen>
@@ -24,7 +25,10 @@
     <dimen name="card_view_height">300dp</dimen>
     <dimen name="card_view_radius">4dp</dimen>
 
-    <!-- others -->
+    <!-- width and height -->
     <dimen name="stock_width">50dp</dimen>
+    <dimen name="total_price_height">40dp</dimen>
+    <dimen name="progress_bar_width">30dp</dimen>
+    <dimen name="progress_bar_height">30dp</dimen>
 
 </resources>

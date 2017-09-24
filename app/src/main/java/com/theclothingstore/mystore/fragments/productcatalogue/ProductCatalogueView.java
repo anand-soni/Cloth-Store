@@ -10,5 +10,8 @@ import java.util.List;
 
 interface ProductCatalogueView {
     void updateProductList(List<Product> productList);
+
     void onProductAddToCart(boolean running, int productId);
+
+    void showMessage(boolean success);
 }

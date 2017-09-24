@@ -2,6 +2,7 @@ package com.theclothingstore.mystore.fragments;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -18,6 +19,9 @@ import com.theclothingstore.mystore.data.ShopService;
 import com.theclothingstore.mystore.helper.NullValues;
 
 import butterknife.Unbinder;
+
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 
 /**
  * @author Anand Soni
@@ -110,6 +114,19 @@ public class BaseFragment extends Fragment implements Toolbar.OnMenuItemClickLis
         } else {
             Log.w(TAG, "Action bar has been not initialized yet.");
         }
+    }
+
+    protected void showProgress(boolean show) {
+        Toolbar toolbar = getContentActivity().getToolbar();
+        if (toolbar != null) {
+            View view = toolbar.findViewById(R.id.progress);
+            view.setVisibility(show ? VISIBLE : GONE);
+        }
+
+    }
+
+    protected void showMessage(String message) {
+        getContentActivity().showMessage(message);
     }
 
     /**
@@ -217,5 +234,9 @@ public class BaseFragment extends Fragment implements Toolbar.OnMenuItemClickLis
      */
     public ShopService getShopService() {
         return getContentActivity().getShopService();
+    }
+
+    public SharedPreferences getSharedPreference() {
+        return contentActivity.getSharedPreference();
     }
 }

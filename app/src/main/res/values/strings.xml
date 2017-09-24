@@ -1,8 +1,15 @@
 <resources>
     <string name="app_name">My Store</string>
-    <string name="out_of_stock">Out of productStock</string>
+    <string name="out_of_stock">Out of Stock</string>
     <string name="add_to_cart">Add to cart</string>
-    <string name="cart_add_message">Congrats! Product added to cart</string>
+    <string name="remove_from_cart">Remove from cart</string>
+    <string name="cart_add_message_success">Congrats! Product added to cart</string>
+    <string name="cart_remove_message_success">Product removed from the cart</string>
+    <string name="message_fail">Sorry! something went wrong</string>
     <string name="menu_shopping_cart">Shopping cart</string>
     <string name="menu_wish_list">Wish list</string>
+    <string name="product_quantity">Product Quantity</string>
+    <string name="shopping_cart">Shopping Cart</string>
+    <string name="total_price">Total price</string>
+    <string name="empty_cart_message">cart empty</string>
 </resources>

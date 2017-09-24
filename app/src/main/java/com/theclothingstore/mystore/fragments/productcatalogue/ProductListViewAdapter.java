@@ -25,29 +25,14 @@ import static com.theclothingstore.mystore.helper.Constants.UnicodeConstants.POU
 class ProductListViewAdapter extends RecyclerView.Adapter<ProductListViewHolder> {
     private List<Product> productList = new ArrayList<>();
     private OnAddCartListener listener;
-    private boolean running = false;
-    private int productId;
 
     ProductListViewAdapter(OnAddCartListener listener) {
         this.listener = listener;
     }
 
-    void setProductList(List<Product> products) {
-        productList.clear();
-        productList.addAll(products);
-        this.notifyDataSetChanged();
-    }
-
-    void setCartProgress(boolean running, int productId) {
-        this.running = running;
-        this.productId = productId;
-        this.notifyDataSetChanged();
-    }
-
     @Override
     public ProductListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.product_item_view, parent, false);
+        View view = getLayout(parent);
         return new ProductListViewHolder(view, listener);
     }
 
@@ -56,6 +41,7 @@ class ProductListViewAdapter extends RecyclerView.Adapter<ProductListViewHolder>
         Product product = productList.get(position);
         holder.productName.setText(product.getProductName());
         holder.productCategory.setText(product.getProductCategory());
+        holder.addCart.setTag(product.getProductId());
         holder.productPrice.setText(String.format(Locale.getDefault(), "%s%s", POUNDS, String.valueOf(product.getProductPrice())));
         if (product.getProductOldPrice() != null) {
             holder.productOldPrice.setText(String.format(Locale.getDefault(), "%s%s", POUNDS, product.getProductOldPrice()));
@@ -69,27 +55,27 @@ class ProductListViewAdapter extends RecyclerView.Adapter<ProductListViewHolder>
         } else {
             holder.outOfStock.setVisibility(GONE);
             holder.addCart.setVisibility(VISIBLE);
-            holder.addCart.setTag(product.getProductId());
             holder.productStock.setVisibility(VISIBLE);
             holder.productStock.setText(String.format(Locale.getDefault(), "%s", stock));
         }
-
-        int itemProductId = Integer.parseInt(String.valueOf(holder.addCart.getTag()));
-
-        if (running && itemProductId == productId) {
-            holder.progress.setVisibility(VISIBLE);
-            holder.addCart.setVisibility(GONE);
-        } else {
-            holder.progress.setVisibility(GONE);
-            holder.addCart.setVisibility(VISIBLE);
-        }
     }
 
+    void setProductList(List<Product> products) {
+        productList.clear();
+        productList.addAll(products);
+    }
 
     @Override
     public int getItemCount() {
         return productList.size();
     }
+
+    //for testing purpose
+    public View getLayout(ViewGroup parent) {
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        return inflater.inflate(R.layout.product_item_view, parent, false);
+    }
+
 }
 
 

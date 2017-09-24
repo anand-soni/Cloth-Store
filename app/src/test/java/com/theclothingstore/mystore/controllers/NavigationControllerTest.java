@@ -5,7 +5,9 @@ import android.app.FragmentTransaction;
 
 import com.theclothingstore.mystore.ContentActivity;
 import com.theclothingstore.mystore.fragments.BaseFragment;
+import com.theclothingstore.mystore.fragments.shopingcart.ShoppingCartFragment;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -46,6 +48,18 @@ public class NavigationControllerTest {
     public void openWelcomeScreen() throws Exception {
         navigationController.openProductCatalogueScreen();
         verifyTransactionDone();
+    }
+
+    @Test
+    public void openShoppingCartScreen() throws Exception {
+        navigationController.openShoppingCartScreen();
+        verifyTransactionDone();
+    }
+
+    @Test
+    public void getFragmentName() {
+        Assert.assertEquals(navigationController.getFragmentName(ShoppingCartFragment.class),
+                ShoppingCartFragment.class.getSimpleName());
     }
 
     private void verifyTransactionDone() {

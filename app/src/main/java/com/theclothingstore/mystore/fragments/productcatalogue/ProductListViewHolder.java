@@ -3,7 +3,6 @@ package com.theclothingstore.mystore.fragments.productcatalogue;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.theclothingstore.mystore.R;
@@ -32,8 +31,6 @@ class ProductListViewHolder extends RecyclerView.ViewHolder {
     TextView productStock;
     @BindView(R.id.button_add_cart)
     Button addCart;
-    @BindView(R.id.cart_progress)
-    ProgressBar progress;
 
     private OnAddCartListener listener;
 

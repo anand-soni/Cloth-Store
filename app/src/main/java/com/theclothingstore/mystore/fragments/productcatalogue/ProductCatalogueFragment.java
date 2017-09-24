@@ -5,22 +5,23 @@ import android.content.Loader;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
+import android.support.annotation.VisibleForTesting;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.theclothingstore.mystore.R;
+import com.theclothingstore.mystore.data.DataHelper;
 import com.theclothingstore.mystore.fragments.BaseFragment;
-import com.theclothingstore.mystore.model.CartResponse;
 import com.theclothingstore.mystore.model.Product;
-import com.theclothingstore.mystore.networktask.AddProductToCartTask;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,9 +29,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.theclothingstore.mystore.helper.Constants.APIRequest.FETCH_DATA;
 import static com.theclothingstore.mystore.helper.Constants.LoaderId.LOADER_ID_FETCH_DATA;
-import static com.theclothingstore.mystore.helper.Constants.StringKeys.API_REQUEST;
 
 /**
  * @author Anand Soni
@@ -38,14 +37,14 @@ import static com.theclothingstore.mystore.helper.Constants.StringKeys.API_REQUE
 
 public class ProductCatalogueFragment extends BaseFragment implements ProductCatalogueView,
         ProductListViewHolder.OnAddCartListener,
-        AddProductToCartTask.Response,
         LoaderManager.LoaderCallbacks<ProductCataloguePresenter> {
 
     @BindView(R.id.product_list)
     RecyclerView productList;
-
-    private ProductCataloguePresenter presenter;
+    @BindView(R.id.progress_bar)
+    ProgressBar progress;
     private ProductListViewAdapter adapter;
+    private ProductCataloguePresenter presenter;
 
     /**
      * Static method which returns the {@link ProductCatalogueFragment} instance
@@ -60,11 +59,10 @@ public class ProductCatalogueFragment extends BaseFragment implements ProductCat
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        presenter = new ProductCataloguePresenter(this, new ProductCatalogueModel(getShopService()));
+        presenter = new ProductCataloguePresenter(this, new DataHelper(getShopService(), getSharedPreference()));
         // start the loader
-        Bundle bundle = new Bundle();
-        bundle.putInt(API_REQUEST, FETCH_DATA);
-        getLoaderManager().initLoader(LOADER_ID_FETCH_DATA, bundle, this);
+        getLoaderManager().initLoader(LOADER_ID_FETCH_DATA, null, this);
+
     }
 
     @Nullable
@@ -72,8 +70,14 @@ public class ProductCatalogueFragment extends BaseFragment implements ProductCat
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_product, container, false);
         unbinder = ButterKnife.bind(this, root);
-        init();
+        initialize();
         return root;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        presenter.setCartResponseItems();
     }
 
     @Override
@@ -83,9 +87,11 @@ public class ProductCatalogueFragment extends BaseFragment implements ProductCat
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.shopping_cart:
+                presenter.saveCartResponse();
+                getNavigationController().openShoppingCartScreen();
                 return true;
             case R.id.wish_list:
                 return true;
@@ -97,23 +103,13 @@ public class ProductCatalogueFragment extends BaseFragment implements ProductCat
     /**
      * initialize the recycler view and adapter
      */
-    private void init() {
+    @VisibleForTesting
+    public void initialize() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContentActivity());
         productList.setLayoutManager(layoutManager);
         productList.setItemAnimator(new DefaultItemAnimator());
-        productList.setAdapter(getProductAdapter());
-    }
-
-    /**
-     * If {@link RecyclerView} adapter is null then first create it and return the instance of adapter
-     *
-     * @return {@link ProductListViewAdapter} instance
-     */
-    private ProductListViewAdapter getProductAdapter() {
-        if (adapter == null) {
-            adapter = new ProductListViewAdapter(this);
-        }
-        return adapter;
+        adapter = new ProductListViewAdapter(this);
+        productList.setAdapter(adapter);
     }
 
     /**
@@ -123,28 +119,16 @@ public class ProductCatalogueFragment extends BaseFragment implements ProductCat
      */
     @Override
     public void updateProductList(List<Product> products) {
-        getProductAdapter().setProductList(products);
+        progress.setVisibility(View.GONE);
+        productList.setVisibility(View.VISIBLE);
+        adapter.setProductList(products);
+        adapter.notifyDataSetChanged();
     }
 
     @Override
     public void onProductAddToCart(boolean running, int productId) {
-        adapter.setCartProgress(running, productId);
+        showProgress(running);
         adapter.notifyDataSetChanged();
-        if (!running) {
-            String message = getResources().getString(R.string.cart_add_message);
-            showMessage(message);
-        }
-    }
-
-    @Override
-    protected boolean isToolbarNavigationActive() {
-        return true;
-    }
-
-    @NonNull
-    @Override
-    protected String getToolbarTitle() {
-        return getResources().getString(R.string.app_name);
     }
 
 
@@ -154,34 +138,79 @@ public class ProductCatalogueFragment extends BaseFragment implements ProductCat
         return new ProductListLoader(getContentActivity(), presenter);
     }
 
-    //loader callback method. called when loader has finished its processing
+    // loader callback method. called when loader has finished its processing
     @Override
     public void onLoadFinished(android.content.Loader<ProductCataloguePresenter> loader, ProductCataloguePresenter presenter) {
         this.presenter = presenter;
         this.presenter.updateProductList();
     }
 
-    //loader callback method. Called when loader reset
+    // loader callback method. Called when loader reset
     @Override
     public void onLoaderReset(android.content.Loader<ProductCataloguePresenter> loader) {
         presenter.setProductList(new ArrayList<Product>());
     }
 
-    private void showMessage(String message) {
-        Snackbar.make(productList, message, Snackbar.LENGTH_SHORT).show();
+    @Override
+    public boolean onBackPressed() {
+        presenter.saveCartResponse();
+        return super.onBackPressed();
+    }
+
+    @Override
+    public void showMessage(boolean success) {
+        String message;
+        if (success) {
+            message = getResources().getString(R.string.cart_add_message_success);
+        } else {
+            message = getResources().getString(R.string.message_fail);
+        }
+        showMessage(message);
     }
 
     @Override
     public void onAddCartClicked(View view, int productId) {
         if (view.getId() == R.id.button_add_cart) {
-            presenter.updateCartProgress(true, productId);
-            new AddProductToCartTask(presenter.getProductModel(), this).execute(productId);
+            presenter.addProductToCart(productId);
         }
     }
 
+    /**
+     * Get the {@link Toolbar} title
+     *
+     * @return {@link String} instance
+     */
+    @NonNull
     @Override
-    public void onTaskFinish(CartResponse response) {
-        presenter.updateCartProgress(false, response.getProductId());
-        presenter.addProductToCartList(response);
+    protected String getToolbarTitle() {
+        return getResources().getString(R.string.app_name);
     }
+
+    /**
+     * for testing purpose, returns the adapter
+     *
+     * @return {@link ProductListViewAdapter} instance
+     */
+    public ProductListViewAdapter getAdapter() {
+        return adapter;
+    }
+
+    /**
+     * for testing purpose, returns the {@link RecyclerView} which displays product list
+     *
+     * @return {@link RecyclerView} instance
+     */
+    public RecyclerView getProductList() {
+        return productList;
+    }
+
+    /**
+     * for testing purpose, returns the {@link ProductCataloguePresenter} which displays product list
+     *
+     * @return {@link ProductCataloguePresenter} instance
+     */
+    public ProductCataloguePresenter getPresenter() {
+        return presenter;
+    }
+
 }

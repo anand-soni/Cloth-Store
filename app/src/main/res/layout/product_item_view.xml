@@ -81,27 +81,14 @@
 
         </LinearLayout>
 
-        <FrameLayout
+        <Button
+            android:id="@+id/button_add_cart"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/main_content">
-
-            <ProgressBar
-                android:id="@+id/cart_progress"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:visibility="gone" />
-
-            <Button
-                android:id="@+id/button_add_cart"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/add_to_cart"
-                android:textColor="@color/colorPrimaryDark"
-                android:visibility="gone" />
-
-        </FrameLayout>
+            android:text="@string/add_to_cart"
+            android:textColor="@color/colorPrimaryDark"
+            android:layout_below="@+id/main_content"
+            android:visibility="visible" />
 
     </RelativeLayout>
 

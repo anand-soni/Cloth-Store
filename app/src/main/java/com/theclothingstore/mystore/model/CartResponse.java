@@ -1,5 +1,7 @@
 package com.theclothingstore.mystore.model;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * This is a simple POJO class for cart response
  *
@@ -7,22 +9,17 @@ package com.theclothingstore.mystore.model;
  */
 
 public class CartResponse {
+
+    @SerializedName("cartId")
     private int cartId;
+    @SerializedName("productId")
     private int productId;
 
     public int getCartId() {
         return cartId;
     }
 
-    public void setCartId(int cartId) {
-        this.cartId = cartId;
-    }
-
     public int getProductId() {
         return productId;
-    }
-
-    public void setProductId(int productId) {
-        this.productId = productId;
     }
 }
