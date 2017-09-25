@@ -236,7 +236,21 @@ public class BaseFragment extends Fragment implements Toolbar.OnMenuItemClickLis
         return getContentActivity().getShopService();
     }
 
+    /**
+     * Return the {@link SharedPreferences} for the application
+     *
+     * @return {@link SharedPreferences} instance
+     */
     public SharedPreferences getSharedPreference() {
         return contentActivity.getSharedPreference();
+    }
+
+    /**
+     * Check whether network connection is available or not
+     *
+     * @return true or false
+     */
+    public boolean isNetworkAvailable() {
+        return contentActivity.isNetworkAvailable();
     }
 }

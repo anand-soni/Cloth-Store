@@ -4,6 +4,8 @@ import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 
 import com.theclothingstore.mystore.data.DataHelper;
+import com.theclothingstore.mystore.helper.NullValues;
+import com.theclothingstore.mystore.helper.ResponseCode;
 import com.theclothingstore.mystore.model.CartResponse;
 import com.theclothingstore.mystore.model.Product;
 
@@ -25,6 +27,7 @@ public class ProductCataloguePresenter {
     private DataHelper model;
     private List<Product> productList = new ArrayList<>();
     private ArrayList<CartResponse> cartResponses = new ArrayList<>();
+    private ResponseCode responseCode;
 
     /**
      * Constructor for the presenter
@@ -43,7 +46,7 @@ public class ProductCataloguePresenter {
      *  update the product list
      */
     void updateProductList() {
-        view.updateProductList(getProductList());
+        view.updateProductList(getProductList(), responseCode);
     }
 
     /**
@@ -124,6 +127,7 @@ public class ProductCataloguePresenter {
 
         @Override
         public void onFailure(Call<CartResponse> call, Throwable t) {
+            view.onProductAddToCart(false, NullValues.NULL_INT);
             view.showMessage(false);
         }
     };
@@ -144,5 +148,9 @@ public class ProductCataloguePresenter {
      */
     void setCartResponseItems() {
         cartResponses = model.fetchCartResponse();
+    }
+
+    public void setResponse(ResponseCode error) {
+        this.responseCode = error;
     }
 }

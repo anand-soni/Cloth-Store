@@ -153,6 +153,7 @@ class ShoppingCartPresenter {
 
         @Override
         public void onFailure(Call<Void> call, Throwable t) {
+            view.onProductRemoveFromCart(false, NullValues.NULL_INT);
             view.showMessage(false);
         }
     };

@@ -2,7 +2,6 @@ package com.theclothingstore.mystore;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.FloatRange;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -14,6 +13,7 @@ import com.theclothingstore.mystore.controllers.NavigationController;
 import com.theclothingstore.mystore.data.ShopService;
 import com.theclothingstore.mystore.fragments.BaseFragment;
 import com.theclothingstore.mystore.helper.Constants;
+import com.theclothingstore.mystore.helper.NetworkUtil;
 
 public class ContentActivity extends AppCompatActivity {
 
@@ -51,6 +51,15 @@ public class ContentActivity extends AppCompatActivity {
             fragment.onBackPressed();
         }
         super.onBackPressed();
+    }
+
+    /**
+     * Check whether network connection is available or not
+     *
+     * @return true or false
+     */
+    public boolean isNetworkAvailable() {
+       return NetworkUtil.isNetworkAvailable(this);
     }
 
     /**

@@ -16,11 +16,14 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.theclothingstore.mystore.R;
 import com.theclothingstore.mystore.data.DataHelper;
 import com.theclothingstore.mystore.fragments.BaseFragment;
+import com.theclothingstore.mystore.helper.ResponseCode;
 import com.theclothingstore.mystore.model.Product;
 
 import java.util.ArrayList;
@@ -28,6 +31,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 import static com.theclothingstore.mystore.helper.Constants.LoaderId.LOADER_ID_FETCH_DATA;
 
@@ -43,6 +47,10 @@ public class ProductCatalogueFragment extends BaseFragment implements ProductCat
     RecyclerView productList;
     @BindView(R.id.progress_bar)
     ProgressBar progress;
+    @BindView(R.id.button_retry)
+    Button retry;
+    @BindView(R.id.text_view_no_connection)
+    TextView noConnection;
     private ProductListViewAdapter adapter;
     private ProductCataloguePresenter presenter;
 
@@ -118,11 +126,24 @@ public class ProductCatalogueFragment extends BaseFragment implements ProductCat
      * @param products, list of products
      */
     @Override
-    public void updateProductList(List<Product> products) {
+    public void updateProductList(List<Product> products, ResponseCode code) {
         progress.setVisibility(View.GONE);
-        productList.setVisibility(View.VISIBLE);
-        adapter.setProductList(products);
-        adapter.notifyDataSetChanged();
+        if(code == ResponseCode.NETWORK_ERROR) {
+            productList.setVisibility(View.GONE);
+            noConnection.setVisibility(View.VISIBLE);
+            retry.setVisibility(View.VISIBLE);
+        }  else {
+            productList.setVisibility(View.VISIBLE);
+            adapter.setProductList(products);
+            adapter.notifyDataSetChanged();
+            noConnection.setVisibility(View.GONE);
+            retry.setVisibility(View.GONE);
+        }
+    }
+
+    @OnClick(R.id.button_retry)
+    public void onRetryButtonClick() {
+        getLoaderManager().restartLoader(LOADER_ID_FETCH_DATA, null, this);
     }
 
     @Override
@@ -156,7 +177,6 @@ public class ProductCatalogueFragment extends BaseFragment implements ProductCat
         presenter.saveCartResponse();
         return super.onBackPressed();
     }
-
 
 
     @Override

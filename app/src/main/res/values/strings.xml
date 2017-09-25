@@ -12,4 +12,6 @@
     <string name="shopping_cart">Shopping Cart</string>
     <string name="total_price">Total price</string>
     <string name="empty_cart_message">cart empty</string>
+    <string name="no_connection">no connection</string>
+    <string name="button_retry">Retry</string>
 </resources>

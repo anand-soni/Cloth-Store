@@ -5,11 +5,15 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.theclothingstore.mystore.data.DataHelper;
+import com.theclothingstore.mystore.helper.NetworkConnectivityException;
+import com.theclothingstore.mystore.helper.ResponseCode;
 import com.theclothingstore.mystore.model.Product;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.theclothingstore.mystore.helper.ResponseCode.SUCCESS;
 
 /**
  * @author Anand Soni
@@ -51,7 +55,11 @@ class ProductListLoader extends AsyncTaskLoader<ProductCataloguePresenter> {
         try {
             // Synchronous operation for fetching all the products using Shop API
             productList = model.getAllProducts();
+            presenter.setResponse(SUCCESS);
         } catch (IOException e) {
+            if(e instanceof NetworkConnectivityException) {
+                presenter.setResponse(ResponseCode.NETWORK_ERROR);
+            }
             e.printStackTrace();
         }
 

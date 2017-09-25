@@ -16,7 +16,7 @@ public class MyStoreApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        shopService = new ShopService();
+        shopService = new ShopService(getApplicationContext());
     }
 
     public ShopService getShopService() {
