@@ -8,5 +8,5 @@ This project demostrate a very basic Shopping Cart application. Application has 
       
 ## How to use the project  
 Download zip file of the entire project and open it inside Android studio to build the project.   
-Android studio will automatically  all the required dependencies and build the project.   
+Android studio will automatically download all the required dependencies and build the project.
 Simply use Android Studio run button to deploy the app on device.
