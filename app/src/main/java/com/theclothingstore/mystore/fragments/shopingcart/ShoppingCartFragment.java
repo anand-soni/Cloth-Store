@@ -52,9 +52,15 @@ public class ShoppingCartFragment extends BaseFragment implements CartListViewHo
     private ShoppingCartPresenter presenter;
     private CartListViewAdapter adapter;
 
+    /**
+     * Creates the new instance of {@link ShoppingCartFragment}
+     *
+     * @return {@link ShoppingCartFragment} instance
+     */
     public static ShoppingCartFragment newInstance() {
         return new ShoppingCartFragment();
     }
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -83,27 +89,42 @@ public class ShoppingCartFragment extends BaseFragment implements CartListViewHo
         cartList.setAdapter(adapter);
     }
 
+    /**
+     * listener method for remove cart button click
+     *
+     * @param view, View which is clicked
+     * @param cartId, cart id of the product for which button is clicked
+     */
     @Override
     public void onCartItemRemove(View view, int cartId) {
         presenter.onRemoveCartItem(cartId);
     }
 
+    // loader callback methods
     @Override
     public Loader<ShoppingCartPresenter> onCreateLoader(int i, Bundle bundle) {
         return new CartListLoader(getContentActivity(), presenter);
     }
 
+    // loader callback methods
     @Override
     public void onLoadFinished(Loader<ShoppingCartPresenter> loader, ShoppingCartPresenter presenter) {
         this.presenter = presenter;
         this.presenter.updateCartList();
     }
 
+    // loader callback methods
     @Override
     public void onLoaderReset(Loader<ShoppingCartPresenter> loader) {
         this.presenter.setCartItems(new CopyOnWriteArrayList<CartItem>());
     }
 
+    /**
+     * This method is called first time cart item loaded.
+     * It initialize views and update the visibility of UI components
+     *
+     * @param cartItems
+     */
     @Override
     public void updateCartList(@NonNull List<CartItem> cartItems) {
         progress.setVisibility(GONE);
@@ -119,12 +140,37 @@ public class ShoppingCartFragment extends BaseFragment implements CartListViewHo
         }
     }
 
+    /**
+     * This method get called when product is being removed from the cart
+     * This method shows the progress bar during product removal from cart.
+     * Also it updates the list of cart items shown to the user
+     *
+     * @param running
+     * @param cartId
+     */
     @Override
     public void onProductRemoveFromCart(boolean running, int cartId) {
         showProgress(running);
         adapter.notifyDataSetChanged();
     }
 
+    /**
+     * This method show the total price on user interface
+     *
+     * @param totalPrice, total price for cart items
+     */
+    @Override
+    public void updateTotalCartPrice(double totalPrice) {
+        String formattedPrice = String.format(Locale.getDefault(), "%s : %s%.2f", getResources().getString(R.string.total_price), POUNDS, totalPrice);
+        totalCartPrice.setText(formattedPrice);
+    }
+
+    /**
+     * This method show the correct message to the user according to success or
+     * failure response
+     *
+     * @param success, boolean for success or failure
+     */
     public void showMessage(boolean success) {
         String message;
         if (success) {
@@ -133,12 +179,6 @@ public class ShoppingCartFragment extends BaseFragment implements CartListViewHo
             message = getResources().getString(R.string.message_fail);
         }
         showMessage(message);
-    }
-
-    @Override
-    public void updateTotalCartPrice(double totalPrice) {
-        String formattedPrice = String.format(Locale.getDefault(), "%s : %s%.2f", getResources().getString(R.string.total_price), POUNDS, totalPrice);
-        totalCartPrice.setText(formattedPrice);
     }
 
     /**

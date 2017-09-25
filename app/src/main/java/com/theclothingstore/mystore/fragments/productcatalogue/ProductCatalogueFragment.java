@@ -157,6 +157,21 @@ public class ProductCatalogueFragment extends BaseFragment implements ProductCat
         return super.onBackPressed();
     }
 
+
+
+    @Override
+    public void onAddCartClicked(View view, int productId) {
+        if (view.getId() == R.id.button_add_cart) {
+            presenter.addProductToCart(productId);
+        }
+    }
+
+    /**
+     * This method show the correct message to the user according to success or
+     * failure response
+     *
+     * @param success, boolean for success or failure
+     */
     @Override
     public void showMessage(boolean success) {
         String message;
@@ -166,13 +181,6 @@ public class ProductCatalogueFragment extends BaseFragment implements ProductCat
             message = getResources().getString(R.string.message_fail);
         }
         showMessage(message);
-    }
-
-    @Override
-    public void onAddCartClicked(View view, int productId) {
-        if (view.getId() == R.id.button_add_cart) {
-            presenter.addProductToCart(productId);
-        }
     }
 
     /**

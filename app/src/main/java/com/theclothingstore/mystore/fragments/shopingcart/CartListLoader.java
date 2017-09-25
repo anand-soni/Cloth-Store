@@ -25,7 +25,7 @@ public class CartListLoader extends AsyncTaskLoader<ShoppingCartPresenter> {
                           @NonNull ShoppingCartPresenter presenter) {
         super(context);
         this.presenter = presenter;
-        this.model = presenter.getProductModel();
+        this.model = presenter.getDataHelper();
     }
 
     @Override
