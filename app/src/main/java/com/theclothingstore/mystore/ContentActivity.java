@@ -2,6 +2,7 @@ package com.theclothingstore.mystore;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.FloatRange;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -11,6 +12,7 @@ import android.widget.RelativeLayout;
 
 import com.theclothingstore.mystore.controllers.NavigationController;
 import com.theclothingstore.mystore.data.ShopService;
+import com.theclothingstore.mystore.fragments.BaseFragment;
 import com.theclothingstore.mystore.helper.Constants;
 
 public class ContentActivity extends AppCompatActivity {
@@ -27,6 +29,28 @@ public class ContentActivity extends AppCompatActivity {
         setSupportActionBar(getToolbar());
         root = findViewById(R.id.main_content);
         openProductCatalogueScreen();
+    }
+
+    /**
+     * Get the current loading fragment
+     *
+     * @return {@link BaseFragment} instance
+     */
+    @Nullable
+    public BaseFragment getCurrentFragment() {
+        return (BaseFragment) getFragmentManager().findFragmentById(CONTAINER_ID);
+    }
+
+    /**
+     * Delegating the on back press event to current loading fragment
+     */
+    @Override
+    public void onBackPressed() {
+        BaseFragment fragment = getCurrentFragment();
+        if(fragment != null && fragment.isBackEnabled()) {
+            fragment.onBackPressed();
+        }
+        super.onBackPressed();
     }
 
     /**

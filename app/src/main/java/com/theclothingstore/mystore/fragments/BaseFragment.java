@@ -159,7 +159,7 @@ public class BaseFragment extends Fragment implements Toolbar.OnMenuItemClickLis
     /**
      * Use this to disable back button. The default behaviour of onBackPressed is based on the isBackEnabled
      */
-    protected boolean isBackEnabled() {
+    public boolean isBackEnabled() {
         return true;
     }
 
